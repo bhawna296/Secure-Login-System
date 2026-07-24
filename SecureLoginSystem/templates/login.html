@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Welcome back</h1>
+  <p class="subtitle">Log in to your account</p>
+
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="field">
+      {{ form.username.label }}
+      {{ form.username(type="text", autocomplete="username") }}
+      {% if form.username.errors %}
+        <div class="field-errors">{{ form.username.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="field">
+      {{ form.password.label }}
+      {{ form.password(type="password", autocomplete="current-password") }}
+      {% if form.password.errors %}
+        <div class="field-errors">{{ form.password.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    {{ form.submit(class="btn") }}
+  </form>
+
+  <p class="helper-text">Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+</div>
+{% endblock %}

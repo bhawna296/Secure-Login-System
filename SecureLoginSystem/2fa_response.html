@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in · SecureLoginDemo</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">&#128274;</span> SecureLoginDemo
+      </div>
+      
+    </header>
+
+    <main class="content">
+      
+        
+          <div class="flash-stack">
+          
+            <div class="flash flash-message">Please log in to access this page.</div>
+          
+          </div>
+        
+      
+
+      
+<div class="card">
+  <h1>Welcome back</h1>
+  <p class="subtitle">Log in to your account</p>
+
+  <form method="POST" novalidate>
+    <input id="csrf_token" name="csrf_token" type="hidden" value="ImZkYWNlZmU0YTM0MDI4NTZhYTAzMzZkZjkzNWJhOWE5YWU3MGQ5ZTMi.amFMfg.VVmV6TB78slYA8zMm6UKdVbZtbM">
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input autocomplete="username" id="username" maxlength="32" name="username" required type="text" value="">
+      
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input autocomplete="current-password" id="password" maxlength="128" name="password" required type="password" value="">
+      
+    </div>
+
+    <input class="btn" id="submit" name="submit" type="submit" value="Log In">
+  </form>
+
+  <p class="helper-text">Don't have an account? <a href="/register">Register</a></p>
+</div>
+
+    </main>
+
+    <footer class="footer">
+      Educational demo — Argon2 password hashing · parameterized SQL queries ·
+      CSRF-protected forms · session-based auth · optional TOTP 2FA
+    </footer>
+  </div>
+</body>
+</html>

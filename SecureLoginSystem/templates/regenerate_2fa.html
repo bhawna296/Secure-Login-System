@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Regenerate 2FA{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Regenerate Authentication Code</h1>
+  <p class="subtitle">Your new secret code (valid for 30 seconds)</p>
+
+  <div style="background: #0d1320; padding: 20px; border-radius: 6px; margin: 20px 0; text-align: center;">
+    <code style="font-size: 1.2rem; letter-spacing: 0.1em; color: #4a9eff; font-family: monospace;">{{ secret }}</code>
+  </div>
+
+  <div style="background: #1a2333; padding: 15px; border-radius: 6px; margin: 15px 0; text-align: center; border: 1px solid #3a4855;">
+    <p style="margin: 0 0 10px 0; color: #e7ebf3;">⏱️ Code expires in:</p>
+    <div style="font-size: 2rem; font-weight: bold; color: #4a9eff;" id="timer">120</div>
+    <p style="margin: 10px 0 0 0; color: #999; font-size: 0.9rem;">seconds (2 minutes)</p>
+  </div>
+
+  <div style="background: #0d1320; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 3px solid #4a9eff;">
+    <p style="margin: 0; color: #e7ebf3; font-size: 0.9rem;">
+      <strong>📱 Next steps:</strong><br>
+      1. Scan the QR code below with your authenticator app<br>
+      2. Your app will generate a new 6-digit code<br>
+      3. Enter that code within 2 minutes to complete setup<br>
+      <br>
+      Or manually enter this secret in your authenticator app.
+    </p>
+  </div>
+
+  {% if qr_base64 %}
+  <div style="text-align: center; margin: 20px 0;">
+    <p style="color: #999; font-size: 0.9rem; margin-bottom: 10px;">Scan with your authenticator app</p>
+    <img src="data:image/png;base64,{{ qr_base64 }}" alt="2FA QR Code" style="border-radius: 6px; max-width: 250px;">
+  </div>
+  {% endif %}
+
+  <form method="POST" action="{{ url_for('confirm_regenerate_2fa') }}" novalidate>
+    <div class="field token-input">
+      <label for="token">Enter the 6-digit code from your authenticator app:</label>
+      <input type="text" id="token" name="token" inputmode="numeric" maxlength="6" placeholder="000000" required>
+    </div>
+    <input class="btn" type="submit" value="Confirm New Code">
+  </form>
+
+  <p class="helper-text"><a href="{{ url_for('login') }}">Back to login</a></p>
+</div>
+
+<script>
+  // Countdown timer (2 minutes = 120 seconds)
+  let secondsLeft = 120;
+  const timerElement = document.getElementById('timer');
+  
+  function updateTimer() {
+    timerElement.textContent = secondsLeft;
+    
+    // Change color as time runs out
+    if (secondsLeft <= 20) {
+      timerElement.style.color = '#ff6b6b';  // Red (critical)
+    } else if (secondsLeft <= 40) {
+      timerElement.style.color = '#ffb347';  // Orange (warning)
+    }
+    
+    secondsLeft--;
+    
+    if (secondsLeft < 0) {
+      timerElement.textContent = '0';
+      timerElement.style.color = '#ff6b6b';
+      console.log('Code expired');
+    }
+  }
+  
+  // Update every second
+  setInterval(updateTimer, 1000);
+</script>
+
+<style>
+  .token-input input {
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    text-align: center;
+    font-family: monospace;
+  }
+</style>
+{% endblock %}

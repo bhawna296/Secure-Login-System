@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Set up 2FA{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Set up two-factor authentication</h1>
+  <p class="subtitle">Scan this QR code with Google Authenticator, Authy, or any TOTP app</p>
+
+  <div class="qr-box">
+    <img src="data:image/png;base64,{{ qr_base64 }}" alt="2FA QR code">
+  </div>
+
+  <p class="subtitle">Or enter this code manually:</p>
+  <code class="secret-code">{{ secret }}</code>
+
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field token-input">
+      {{ form.token.label }}
+      {{ form.token(type="text", inputmode="numeric", autocomplete="one-time-code", maxlength=6, placeholder="000000") }}
+      {% if form.token.errors %}
+        <div class="field-errors">{{ form.token.errors[0] }}</div>
+      {% endif %}
+    </div>
+    {{ form.submit(class="btn") }}
+  </form>
+
+  <p class="helper-text"><a href="{{ url_for('dashboard') }}">Cancel</a></p>
+</div>
+{% endblock %}

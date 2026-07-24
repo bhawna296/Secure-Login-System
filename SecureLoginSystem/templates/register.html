@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Create your account</h1>
+  <p class="subtitle">Passwords are hashed with Argon2 before storage — we never see or store the plaintext.</p>
+
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="field">
+      {{ form.username.label }}
+      {{ form.username(type="text", autocomplete="username") }}
+      {% if form.username.errors %}
+        <div class="field-errors">{{ form.username.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="field">
+      {{ form.email.label }}
+      {{ form.email(type="email", autocomplete="email") }}
+      {% if form.email.errors %}
+        <div class="field-errors">{{ form.email.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="field">
+      {{ form.password.label }}
+      {{ form.password(type="password", autocomplete="new-password") }}
+      {% if form.password.errors %}
+        <div class="field-errors">{{ form.password.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="field">
+      {{ form.confirm_password.label }}
+      {{ form.confirm_password(type="password", autocomplete="new-password") }}
+      {% if form.confirm_password.errors %}
+        <div class="field-errors">{{ form.confirm_password.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    {{ form.submit(class="btn") }}
+  </form>
+
+  <p class="helper-text">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+</div>
+{% endblock %}

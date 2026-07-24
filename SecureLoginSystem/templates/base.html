@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Secure Login{% endblock %} · SecureLoginDemo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">&#128274;</span> SecureLoginDemo
+      </div>
+      {% if current_user.is_authenticated %}
+      <nav class="topnav">
+        <span class="topnav-user">{{ current_user.username }}</span>
+        <a href="{{ url_for('logout') }}" class="topnav-link">Log out</a>
+      </nav>
+      {% endif %}
+    </header>
+
+    <main class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      Educational demo — Argon2 password hashing · parameterized SQL queries ·
+      CSRF-protected forms · session-based auth · optional TOTP 2FA
+    </footer>
+  </div>
+</body>
+</html>
